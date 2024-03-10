@@ -1,14 +1,14 @@
-package org.facul.relatorio.dto;
+package org.facul.relatorio.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import org.facul.relatorio.domain.Relatorio;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-public record EmpresaDTO (
-        @CNPJ(message = "Erro ao cadastrar o CNPJ. Tente um CNPJ válido.")
+public record EmpresaRequestDTO(
+        @CNPJ(message = "{EmpresaDTO.cnpj}")
         String cnpj,
 
-        @NotBlank(message = "Não pode ser null ou vazio.")
+        @NotBlank(message = "{empresaDTO.razaoSocial}")
         String razaoSocial,
 
         Relatorio relatorio

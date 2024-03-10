@@ -1,0 +1,5 @@
+CREATE TABLE empresas (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cnpj VARCHAR(20),
+    razao_social VARCHAR(255) UNIQUE
+);

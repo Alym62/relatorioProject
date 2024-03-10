@@ -1,0 +1,15 @@
+EmpresaDTO:
+  cnpj: "CNPJ inválido, tente outra vez."
+  razaoSocial: "A razão social não pode ser null ou vazia."
+
+produtoDTO:
+  nomeDoProduto: "O nome do produto não pode ser null ou vazio."
+  descricao: "A descrição não pode ser null ou vazio."
+
+relatorioDTO:
+  dataDoPeriodoDeAnalise: "A data de analise precisa ser presente ou futuro."
+  resumo: "O resumo não pode ser null ou vazio."
+
+vendaDTO:
+  dataDaVenda: "A data da venda precisa ser presente ou futuro."
+  nomeDoVendedor: "O nome do vendedor não pode ser null ou vazio."

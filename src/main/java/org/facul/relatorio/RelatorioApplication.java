@@ -9,5 +9,4 @@ public class RelatorioApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RelatorioApplication.class, args);
 	}
-
 }

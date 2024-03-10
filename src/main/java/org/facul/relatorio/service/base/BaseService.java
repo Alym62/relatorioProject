@@ -7,30 +7,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-public abstract class BaseService<T, ID, DTO> {
+public abstract class BaseService<T, ID, DTORequest, DTOResponse> {
     protected abstract JpaRepository<T, ID> getRepository();
 
-    public List<DTO> buscarPorTodos() {
+    public List<DTOResponse> buscarPorTodos() {
         List<T> entities = getRepository().findAll();
         return mapListEntitiesToDTOs(entities);
     }
 
-    public Optional<DTO> buscarPorId(ID id) {
-        return getRepository().findById(id).map(this::mapEntityToDTO);
+    public Optional<DTOResponse> buscarPorId(ID id) {
+        return getRepository().findById(id).map(this::mapEntityToDTOResponse);
     }
 
-    public DTO salvar(DTO dto) {
-        T entity = mapDTOtoEntity(dto);
-        return mapEntityToDTO(getRepository().save(entity));
+    public DTORequest salvar(DTORequest dto) {
+        T entity = mapDTORequestToEntity(dto);
+        return mapEntityToDTORequest(getRepository().save(entity));
     }
 
-    public DTO update(ID id, DTO dto) {
+    public DTORequest update(ID id, DTORequest dto) {
         Optional<T> optionalEntity = getRepository().findById(id);
 
         if (optionalEntity.isPresent()) {
-            T entity = mapDTOtoEntity(dto);
-            entity = getRepository().save(entity);
-            return mapEntityToDTO(entity);
+            T entityExists = optionalEntity.get();
+            mapUpdateDTORequestToEntity(entityExists, dto);
+            entityExists = getRepository().save(entityExists);
+            return mapEntityToDTORequest(entityExists);
         } else {
             return null;
         }
@@ -40,9 +41,13 @@ public abstract class BaseService<T, ID, DTO> {
         getRepository().deleteById(id);
     }
 
-    protected abstract DTO mapEntityToDTO(T entity);
+    protected abstract void mapUpdateDTORequestToEntity(T entity, DTORequest dto);
 
-    protected abstract List<DTO> mapListEntitiesToDTOs(List<T> entities);
+    protected abstract DTOResponse mapEntityToDTOResponse(T entity);
 
-    protected abstract T mapDTOtoEntity(DTO dto);
+    protected abstract DTORequest mapEntityToDTORequest(T entity);
+
+    protected abstract List<DTOResponse> mapListEntitiesToDTOs(List<T> entities);
+
+    protected abstract T mapDTORequestToEntity(DTORequest dto);
 }

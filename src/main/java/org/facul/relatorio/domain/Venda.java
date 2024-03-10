@@ -2,9 +2,9 @@ package org.facul.relatorio.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.facul.relatorio.domain.enums.TipoProduto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Venda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +24,22 @@ public class Venda {
 
     private String nomeDoVendedor;
 
-    @OneToMany(mappedBy = "venda")
+    @OneToMany(mappedBy = "venda", fetch = FetchType.LAZY)
     private List<Produto> produtos;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "relatorio_id")
     private Relatorio relatorio;
+
+    public Venda(LocalDate dataDaVenda, String nomeDoVendedor, List<Produto> produtos, Relatorio relatorio) {
+        this.dataDaVenda = dataDaVenda;
+        this.nomeDoVendedor = nomeDoVendedor;
+        this.produtos = produtos;
+        this.relatorio = relatorio;
+    }
+
+    public Venda(LocalDate dataDaVenda, String nomeDoVendedor) {
+        this.dataDaVenda = dataDaVenda;
+        this.nomeDoVendedor = nomeDoVendedor;
+    }
 }
